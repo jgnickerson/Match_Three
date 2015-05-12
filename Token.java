@@ -37,14 +37,14 @@ class Token {
 		t1.selected=false;
 		t1.matched=false;
 		t1.color=this.color;
-		this.color=(int)(Math.random() *((5)+1));
+		this.color=(int)(Math.random() *((4)+1));
 		this.selected=false;
 		this.matched=false;
 	}
 	
 	//randomizes this.color and resets all else
 	void randomize() {
-		this.color=(int)(Math.random() *((5)+1));
+		this.color=(int)(Math.random() *((4)+1));
 		this.selected=false;
 		this.matched=false;
 	}

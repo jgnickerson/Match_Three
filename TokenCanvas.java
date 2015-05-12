@@ -63,7 +63,7 @@ class TokenCanvas extends Canvas implements MouseListener {
 		selectedTile = null;
 		for (int i = 0; i < 8; i++){
 			for (int j = 0; j < 8; j++) {
-				int randInt = (int)(Math.random() *((5)+1)); //randomize int between 0-5
+				int randInt = (int)(Math.random() *((4)+1)); //randomize int between 0-5
 				rowArray[i][j] = new Token(randInt,j,i);	//use randInt as color of new Token
 			}
 		}
@@ -83,7 +83,7 @@ class TokenCanvas extends Canvas implements MouseListener {
 			//sleep allows the user to get a visual representation of 
 			//the match rather than the board updating instantaneously
 			update(getGraphics()); 
-			try {Thread.sleep(500);} catch  (InterruptedException e) { }
+			try {Thread.sleep(300);} catch  (InterruptedException e) { }
 			
 			checkMatches();  //delete all matches
 		}
@@ -265,7 +265,7 @@ class TokenCanvas extends Canvas implements MouseListener {
 			for (int i = 0; i < yLevel; i++) {   
 				//swaps the tiles directly above a vertical to the location 
 				//of the tiles of the match
-				Token tileToPush = rowArray[yLevel-i-1][matches.get(0).x]; 
+				Token tileToPush = rowArray[yLevel-i-1][matches.get(0).x];
 				tileToPush.swapAndRandomize(rowArray[tileToPush.y + matches.size()][tileToPush.x]);
 				//update/sleep give a visual representation of the block falling down
 				//though the effect is not as good as for horizontal matches
@@ -274,7 +274,8 @@ class TokenCanvas extends Canvas implements MouseListener {
 				try {Thread.sleep(100);} catch  (InterruptedException e) { }
 			}
 		}
-		for (int j = 0; j < matches.size(); j++) {
+		
+		for (int j = matches.size()-1; j >= 0; j--) {
 			//randomizes the remaining tiles above the swapped tiles
 			//above the originally swapped tiles
 			Token tileToRandomize = rowArray[j][matches.get(0).x]; 
@@ -298,10 +299,12 @@ class TokenCanvas extends Canvas implements MouseListener {
 			//and this.numSelected are reset. 
 			if (areAdjacent(selectedTile,tile) && swapResultsInMatch(selectedTile,tile)) { 
 				selectedTile.Swap(tile);
-				System.out.println("decrementing Moves");
+				update(getGraphics());  
+				try {Thread.sleep(150);} catch  (InterruptedException e) { }
+				System.out.println("Swapping");
+				System.out.println("decrementing MovesRemaining");
 				movesRemaining--;
 				game.MovesRemaining.setText("Moves Remaining: " + Integer.toString(movesRemaining));
-				System.out.println("Swapping");
 				cleanBoard(); 
 			} 
 			//resets selection
@@ -340,7 +343,7 @@ class TokenCanvas extends Canvas implements MouseListener {
 				//find the color of the token
 				Token tile = rowArray[i][j];
 				if (tile.color == 0) 
-					g.setColor(blue);
+					g.setColor(cyan);
 				if (tile.color == 1)
 					g.setColor(red);
 				if (tile.color == 2)
@@ -350,7 +353,7 @@ class TokenCanvas extends Canvas implements MouseListener {
 				if (tile.color == 4)
 					g.setColor(magenta);
 				if (tile.color == 5)
-					g.setColor(cyan);
+					g.setColor(blue);
 				
 				//draw square of appropriate color
 				int x = j * size + border;
